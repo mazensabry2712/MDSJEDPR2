@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct Logo Test</title>
+    <style>
+        img { border: 3px solid red; margin: 10px; }
+        .success { border-color: green !important; }
+    </style>
+</head>
+<body>
+    <h2>Direct Logo Test</h2>
+
+    <h3>Test 1: Direct Path</h3>
+    <img src="/storge/1766677157_qrcode_292190732_970acbbc2050a407b1e6ff2e74d5a1a5 (2).png"
+         width="100"
+         onload="this.classList.add('success'); document.getElementById('result1').innerHTML = 'SUCCESS!'"
+         onerror="document.getElementById('result1').innerHTML = 'FAILED!'">
+    <div id="result1">Loading...</div>
+
+    <h3>Test 2: URL Encoded Space</h3>
+    <img src="/storge/1766677157_qrcode_292190732_970acbbc2050a407b1e6ff2e74d5a1a5%20(2).png"
+         width="100"
+         onload="this.classList.add('success'); document.getElementById('result2').innerHTML = 'SUCCESS!'"
+         onerror="document.getElementById('result2').innerHTML = 'FAILED!'">
+    <div id="result2">Loading...</div>
+
+    <h3>Test 3: Latest frame.png</h3>
+    <img src="/storge/1766500595_frame.png"
+         width="100"
+         onload="this.classList.add('success'); document.getElementById('result3').innerHTML = 'SUCCESS!'"
+         onerror="document.getElementById('result3').innerHTML = 'FAILED!'">
+    <div id="result3">Loading...</div>
+
+    <script>
+        console.log('Page loaded');
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # إذا كان الطلب للمجلد الجذر فقط، أرسله ل public/
+    RewriteRule ^$ public/ [L]
+
+    # جميع الطلبات الأخرى حولها لـ public/ مع المحافظة على المسار
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

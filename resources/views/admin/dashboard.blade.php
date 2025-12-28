@@ -1197,15 +1197,38 @@
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <div style="width: 100%;">
                                                                 <small style="opacity: 0.9; font-weight: 600; font-size: 12px;">Escalation</small>
-                                                                <div style="font-size: 13px; line-height: 1.6; max-height: 100px; overflow-y: auto; margin-top: 10px;">
+                                                                <div style="font-size: 13px; line-height: 1.6; max-height: 150px; overflow-y: auto; margin-top: 10px;">
                                                                     @if($project->customer_contact_details || $project->aams)
-                                                                        <div style="padding: 6px 0; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.15);">
-                                                                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
-                                                                                <span style="font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $project->customer_contact_details ?? 'N/A' }}</span>
-                                                                                <i class="fas fa-long-arrow-alt-right" style="font-size: 11px; opacity: 0.7; flex-shrink: 0;"></i>
-                                                                                <span style="background: rgba(255,255,255,0.3); padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; flex-shrink: 0; white-space: nowrap;">{{ $project->aams->name ?? 'N/A' }}</span>
-                                                                            </div>
+                                                                        {{-- Customer Contact --}}
+                                                                        <div style="margin-bottom: 12px;">
+                                                                            <div style="font-size: 10px; opacity: 0.7; margin-bottom: 4px;">Customer Contact:</div>
+                                                                            <div style="font-weight: 600; font-size: 14px;">{{ $project->customer_contact_details ?? 'N/A' }}</div>
                                                                         </div>
+
+                                                                        {{-- AM Details --}}
+                                                                        @if($project->aams)
+                                                                            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px;">
+                                                                                <div style="font-size: 10px; opacity: 0.7; margin-bottom: 6px;">Account Manager:</div>
+                                                                                <div style="font-size: 12px; line-height: 1.8;">
+                                                                                    <div style="margin-bottom: 3px;">
+                                                                                        <i class="fas fa-user" style="width: 16px; opacity: 0.8;"></i>
+                                                                                        <span style="font-weight: 600;">{{ $project->aams->name }}</span>
+                                                                                    </div>
+                                                                                    @if($project->aams->email)
+                                                                                        <div style="margin-bottom: 3px;">
+                                                                                            <i class="fas fa-envelope" style="width: 16px; opacity: 0.8;"></i>
+                                                                                            <span>{{ $project->aams->email }}</span>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                    @if($project->aams->phone)
+                                                                                        <div>
+                                                                                            <i class="fas fa-phone" style="width: 16px; opacity: 0.8;"></i>
+                                                                                            <span>{{ $project->aams->phone }}</span>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
                                                                     @else
                                                                         <div style="opacity: 0.7; padding: 10px 0; text-align: center;">No contact info</div>
                                                                     @endif
@@ -1214,6 +1237,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
                                             </div>
                                         </div>
                                     </div>

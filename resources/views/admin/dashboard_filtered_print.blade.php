@@ -610,15 +610,40 @@
                     <div class="card-title">Escalation</div>
                     <div class="card-content">
                         @if($project->customer_contact_details || $project->aams)
-                            <div class="detail-item">
-                                <span class="detail-name">{{ $project->customer_contact_details ?? 'N/A' }}</span>
-                                <i class="fas fa-long-arrow-alt-right detail-arrow"></i>
-                                <span class="detail-assigned">{{ $project->aams->name ?? 'N/A' }}</span>
+                            {{-- Customer Contact --}}
+                            <div style="margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                                <div style="font-size: 6px; opacity: 0.7; margin-bottom: 2px;">Customer Contact:</div>
+                                <div style="font-weight: 600; font-size: 7px;">{{ $project->customer_contact_details ?? 'N/A' }}</div>
                             </div>
+
+                            {{-- Account Manager Details --}}
+                            @if($project->aams)
+                                <div style="font-size: 6px; opacity: 0.7; margin-bottom: 3px;">Account Manager:</div>
+                                <div style="font-size: 7px; line-height: 1.6;">
+                                    {{-- Name --}}
+                                    <div style="margin-bottom: 2px;">
+                                        <i class="fas fa-user" style="width: 10px; opacity: 0.8; font-size: 6px;"></i>
+                                        <span style="font-weight: 600;">{{ $project->aams->name ?? 'N/A' }}</span>
+                                    </div>
+                                    {{-- Email --}}
+                                    @if($project->aams->email)
+                                        <div style="margin-bottom: 2px;">
+                                            <i class="fas fa-envelope" style="width: 10px; opacity: 0.8; font-size: 6px;"></i>
+                                            <span style="font-size: 6px;">{{ $project->aams->email }}</span>
+                                        </div>
+                                    @endif
+                                    {{-- Phone --}}
+                                    @if($project->aams->phone)
+                                        <div>
+                                            <i class="fas fa-phone" style="width: 10px; opacity: 0.8; font-size: 6px;"></i>
+                                            <span style="font-size: 6px;">{{ $project->aams->phone }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                         @else
                             <div class="no-data">No contact info</div>
                         @endif
-                        <div class="detail-summary">Contact → AM</div>
                     </div>
                 </div>
             </div>

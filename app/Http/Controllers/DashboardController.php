@@ -51,7 +51,7 @@ class DashboardController extends Controller
         // Get filter data for dropdowns with progress calculations
         $projects = Project::with([
             'ppms',
-            'aams',
+            'aams:id,name,email,phone',
             'cust',
             'latestStatus',
             'tasks',
@@ -117,7 +117,7 @@ class DashboardController extends Controller
             // Load relationships after filtering for better performance
             $filteredProjects = $query->with([
                 'ppms:id,name',
-                'aams:id,name',
+                'aams:id,name,email,phone',
                 'cust:id,name,logo',
                 'latestStatus',
                 'tasks' => function($q) {
@@ -192,7 +192,7 @@ class DashboardController extends Controller
     public function printProject($prNumber)
     {
         $project = Project::where('pr_number', $prNumber)
-            ->with(['ppms', 'aams', 'cust', 'ds', 'vendor', 'tasks', 'risks', 'milestones', 'invoices'])
+            ->with(['ppms', 'aams:id,name,email,phone', 'cust', 'ds', 'vendor', 'tasks', 'risks', 'milestones', 'invoices'])
             ->firstOrFail();
 
         // Calculate statistics
@@ -244,7 +244,7 @@ class DashboardController extends Controller
         // Start with base query - Load all relationships
         $query = Project::query()->with([
             'ppms',
-            'aams',
+            'aams:id,name,email,phone',
             'cust',
             'latestStatus',
             'tasks',

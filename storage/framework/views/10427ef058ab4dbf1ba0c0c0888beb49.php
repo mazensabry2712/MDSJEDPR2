@@ -613,15 +613,40 @@
                     <div class="card-title">Escalation</div>
                     <div class="card-content">
                         <?php if($project->customer_contact_details || $project->aams): ?>
-                            <div class="detail-item">
-                                <span class="detail-name"><?php echo e($project->customer_contact_details ?? 'N/A', false); ?></span>
-                                <i class="fas fa-long-arrow-alt-right detail-arrow"></i>
-                                <span class="detail-assigned"><?php echo e($project->aams->name ?? 'N/A', false); ?></span>
+                            
+                            <div style="margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                                <div style="font-size: 6px; opacity: 0.7; margin-bottom: 2px;">Customer Contact:</div>
+                                <div style="font-weight: 600; font-size: 7px;"><?php echo e($project->customer_contact_details ?? 'N/A', false); ?></div>
                             </div>
+
+                            
+                            <?php if($project->aams): ?>
+                                <div style="font-size: 6px; opacity: 0.7; margin-bottom: 3px;">Account Manager:</div>
+                                <div style="font-size: 7px; line-height: 1.6;">
+                                    
+                                    <div style="margin-bottom: 2px;">
+                                        <i class="fas fa-user" style="width: 10px; opacity: 0.8; font-size: 6px;"></i>
+                                        <span style="font-weight: 600;"><?php echo e($project->aams->name ?? 'N/A', false); ?></span>
+                                    </div>
+                                    
+                                    <?php if($project->aams->email): ?>
+                                        <div style="margin-bottom: 2px;">
+                                            <i class="fas fa-envelope" style="width: 10px; opacity: 0.8; font-size: 6px;"></i>
+                                            <span style="font-size: 6px;"><?php echo e($project->aams->email, false); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <?php if($project->aams->phone): ?>
+                                        <div>
+                                            <i class="fas fa-phone" style="width: 10px; opacity: 0.8; font-size: 6px;"></i>
+                                            <span style="font-size: 6px;"><?php echo e($project->aams->phone, false); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
                         <?php else: ?>
                             <div class="no-data">No contact info</div>
                         <?php endif; ?>
-                        <div class="detail-summary">Contact → AM</div>
                     </div>
                 </div>
             </div>

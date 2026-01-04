@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\Cache;
 class AamsController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show am', ['only' => ['index']]);
+        $this->middleware('permission:add am', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit am', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete am', ['only' => ['destroy']]);
+        $this->middleware('permission:view am', ['only' => ['show']]);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

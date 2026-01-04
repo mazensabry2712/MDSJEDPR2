@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Log;
 class PstatusController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show status', ['only' => ['index']]);
+        $this->middleware('permission:add status', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit status', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete status', ['only' => ['destroy']]);
+        $this->middleware('permission:view status', ['only' => ['show']]);
+    }
+
+
+    /**
      * Export PStatus to Excel
      */
     public function exportExcel()

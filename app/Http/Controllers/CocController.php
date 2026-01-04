@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\Cache;
 class CocController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show coc', ['only' => ['index']]);
+        $this->middleware('permission:add coc', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit coc', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete coc', ['only' => ['destroy']]);
+        $this->middleware('permission:view coc', ['only' => ['show']]);
+    }
+
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

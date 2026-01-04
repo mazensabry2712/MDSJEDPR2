@@ -5,28 +5,20 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DB;
+
 class RoleController extends Controller
 {
-/**
-* Display a listing of the resource.
-*
-* @return \Illuminate\Http\Response
-*/
-
-
-// function __construct()
-
-// {
-
-// $this->middleware('permission:view permission ', ['only' => ['index']]);
-// $this->middleware('permission: add permission', ['only' => ['create','store']]);
-// $this->middleware('permission: update permission', ['only' => ['edit','update']]);
-// $this->middleware('permission: delete permission', ['only' => ['destroy']]);
-
-// }
-
-
-
+    /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show roles', ['only' => ['index']]);
+        $this->middleware('permission:add roles', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit roles', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete roles', ['only' => ['destroy']]);
+        $this->middleware('permission:view roles', ['only' => ['show']]);
+    }
 
 /**
 * Display a listing of the resource.
@@ -68,19 +60,30 @@ return view('roles.create',compact('permission'));
 // }
 public function store(Request $request)
 {
-    $this->validate($request, [
-        'name' => 'required|unique:roles,name',
-        'permission' => 'required',
-    ]);
+    try {
+        $this->validate($request, [
+            'name' => 'required|unique:roles,name|string|max:255',
+            'permission' => 'required|array',
+        ]);
 
-    $role = Role::create(['name' => $request->input('name')]);
+        $role = Role::create(['name' => $request->input('name')]);
 
-    $permissionIds = $request->input('permission');
-    $permissionNames = Permission::whereIn('id', $permissionIds)->pluck('name')->toArray();
-    $role->syncPermissions($permissionNames);
+        $permissionIds = $request->input('permission');
+        $permissionNames = Permission::whereIn('id', $permissionIds)->pluck('name')->toArray();
+        $role->syncPermissions($permissionNames);
 
-    return redirect()->route('roles.index')
-        ->with('success','Role created successfully');
+        return redirect()->route('roles.index')
+            ->with('Add', 'Permission has been added successfully');
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()->back()
+            ->withErrors($e->validator)
+            ->withInput();
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'An error occurred: ' . $e->getMessage())
+            ->withInput();
+    }
 }
 
 /**
@@ -134,21 +137,38 @@ return view('roles.edit',compact('role','permission','rolePermissions'));
 // }
 public function update(Request $request, $id)
 {
-    $this->validate($request, [
-        'name' => 'required',
-        'permission' => 'required',
-    ]);
+    try {
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'permission' => 'required|array',
+        ]);
 
-    $role = Role::find($id);
-    $role->name = $request->input('name');
-    $role->save();
+        $role = Role::find($id);
 
-    $permissionIds = $request->input('permission');
-    $permissionNames = Permission::whereIn('id', $permissionIds)->pluck('name')->toArray();
-    $role->syncPermissions($permissionNames);
+        if(!$role) {
+            return redirect()->route('roles.index')
+                ->with('error', 'Permission not found');
+        }
 
-    return redirect()->route('roles.index')
-        ->with('success','Role updated successfully');
+        $role->name = $request->input('name');
+        $role->save();
+
+        $permissionIds = $request->input('permission');
+        $permissionNames = Permission::whereIn('id', $permissionIds)->pluck('name')->toArray();
+        $role->syncPermissions($permissionNames);
+
+        return redirect()->route('roles.index')
+            ->with('edit', 'Permission has been updated successfully');
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()->back()
+            ->withErrors($e->validator)
+            ->withInput();
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'An error occurred: ' . $e->getMessage())
+            ->withInput();
+    }
 }
 
 /**
@@ -159,8 +179,22 @@ public function update(Request $request, $id)
 */
 public function destroy($id)
 {
-DB::table("roles")->where('id',$id)->delete();
-return redirect()->route('roles.index')
-->with('success','Role deleted successfully');
+    $role = Role::find($id);
+
+    if(!$role) {
+        return redirect()->route('roles.index')
+            ->with('error', 'Permission not found');
+    }
+
+    // Check if role is assigned to any user
+    if($role->users()->count() > 0) {
+        return redirect()->route('roles.index')
+            ->with('error', 'Cannot delete permission that is assigned to users');
+    }
+
+    $role->delete();
+
+    return redirect()->route('roles.index')
+        ->with('delete', 'Permission has been deleted successfully');
 }
 }

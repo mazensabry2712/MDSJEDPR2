@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Log;
 class PpmsController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show pm', ['only' => ['index']]);
+        $this->middleware('permission:add pm', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit pm', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete pm', ['only' => ['destroy']]);
+        $this->middleware('permission:view pm', ['only' => ['show']]);
+    }
+
+    /**
      * Export PMs to Excel
      */
     public function exportExcel()

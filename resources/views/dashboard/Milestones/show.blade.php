@@ -204,19 +204,19 @@
             <!-- Quick Actions -->
             <div class="action-card no-print">
                 <h5><i class="fas fa-bolt"></i> Quick Actions</h5>
-                {{-- @can('edit') --}}
+                @can('edit milestones')
                 <a href="{{ route('milestones.edit', $milestones->id) }}" class="btn btn-primary btn-action">
                     <i class="fas fa-edit"></i> Edit Milestone
                 </a>
-                {{-- @endcan --}}
+                @endcan
                 <a href="{{ route('milestones.index') }}" class="btn btn-outline-primary btn-action">
                     <i class="fas fa-arrow-left"></i> Back to List
                 </a>
-                {{-- @can('delete') --}}
+                @can('delete milestones')
                 <button type="button" class="btn btn-danger btn-action" data-toggle="modal" data-target="#deleteModal">
                     <i class="fas fa-trash"></i> Delete Milestone
                 </button>
-                {{-- @endcan --}}
+                @endcan
             </div>
 
             <!-- Export Options -->

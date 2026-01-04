@@ -319,7 +319,7 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    @can('Edit')
+                    @can('edit pos')
                         <a href="{{ route('ppos.edit', $ppo->id) }}" class="btn btn-info action-btn">
                             <i class="fas fa-edit mr-2"></i>Edit PPO
                         </a>
@@ -329,7 +329,7 @@
                         <i class="fas fa-list mr-2"></i>Back to List
                     </a>
 
-                    @can('Delete')
+                    @can('delete pos')
                         <button type="button" class="btn btn-danger action-btn" data-toggle="modal" data-target="#deleteModal">
                             <i class="fas fa-trash mr-2"></i>Delete PPO
                         </button>
@@ -369,7 +369,7 @@
     </div>
 
     <!-- Delete Modal -->
-    @can('Delete')
+    @can('delete pos')
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

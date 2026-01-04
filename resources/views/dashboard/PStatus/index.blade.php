@@ -101,7 +101,7 @@
                                 <i class="fas fa-print"></i> Print
                             </a>
 
-                            @can('Add')
+                            @can('add status')
                             <a class="btn btn-primary" href="{{ route('pstatus.create') }}">
                                 <i class="fas fa-plus"></i> Add New Status
                             </a>
@@ -135,18 +135,18 @@
                                             <a class="btn btn-sm btn-primary" href="{{ route('pstatus.show', $item->id) }}" title="Show">
                                                 <i class="las la-eye"></i>
                                             </a>
-                                            {{-- @can('Edit') --}}
+                                            @can('edit status')
                                             <a class="btn btn-sm btn-info" href="{{ route('pstatus.edit', $item->id) }}" title="Edit">
                                                 <i class="las la-pen"></i>
                                             </a>
-                                            {{-- @endcan --}}
-                                            {{-- @can('Delete') --}}
+                                            @endcan
+                                            @can('delete status')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $item->id }}" data-name="{{ $item->project->pr_number ?? 'N/A' }}"
                                                 data-toggle="modal" href="#modaldemo9" title="Delete">
                                                 <i class="las la-trash"></i>
                                             </a>
-                                            {{-- @endcan --}}
+                                            @endcan
                                         </td>
                                         <td>{{ $item->project->pr_number ?? 'N/A' }}</td>
                                         <td>{{ $item->project->name ?? 'N/A' }}</td>

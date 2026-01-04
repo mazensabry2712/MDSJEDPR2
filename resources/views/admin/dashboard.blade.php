@@ -851,34 +851,54 @@
                                 <div class="col-12 mb-4">
                                     <div class="card" style="border-radius: 15px; border: 3px solid #007bff; box-shadow: 0 6px 30px rgba(0, 123, 255, 0.2);">
                                         <div class="card-header" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); padding: 25px; display: flex; justify-content: space-between; align-items: center;">
-                                            <div>
+                                            {{-- Customer Logo (Left) --}}
+                                            @if($project->cust && $project->cust->logo)
+                                                <div style="background: white; padding: 10px; border-radius: 7px; display: flex; align-items: center; justify-content: center; max-width: 130px; max-height: 90px;">
+                                                    <img src="/{{ $project->cust->logo }}"
+                                                         alt="{{ $project->cust->name }} Logo"
+                                                         onerror="this.parentElement.style.display='none';"
+                                                         style="max-height: 70px; max-width: 110px; width: auto; height: auto; object-fit: contain;">
+                                                </div>
+                                            @else
+                                                <div style="width: 80px;"></div>
+                                            @endif
+
+                                            {{-- Project Name & PR Number with Print Button (Center) --}}
+                                            <div style="text-align: center; flex: 1;">
                                                 <h3 class="text-white mb-0" style="line-height: 1.4;">
                                                     <i class="fas fa-project-diagram"></i> {{ $project->name }}
                                                 </h3>
-                                                <span class="badge badge-light mt-2" style="font-size: 14px; font-weight: 600;">PR# {{ $project->pr_number }}</span>
+                                                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px;">
+                                                    <span class="badge badge-light" style="font-size: 14px; font-weight: 600;">PR# {{ $project->pr_number }}</span>
+                                                    <form action="{{ route('dashboard.print.filtered') }}" method="GET" target="_blank" style="display: inline; margin: 0;">
+                                                        @foreach(request('filter', []) as $key => $value)
+                                                            @if($value)
+                                                                <input type="hidden" name="filter[{{ $key }}]" value="{{ $value }}">
+                                                            @endif
+                                                        @endforeach
+                                                        <button type="submit" class="btn"
+                                                                style="background: white;
+                                                                       color: #007bff;
+                                                                       font-weight: 600;
+                                                                       padding: 8px 16px;
+                                                                       border-radius: 6px;
+                                                                       box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+                                                                       border: none;
+                                                                       transition: all 0.3s ease;
+                                                                       cursor: pointer;
+                                                                       font-size: 13px;">
+                                                            <i class="fas fa-print"></i> Print
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
-                                            {{-- Print Button --}}
-                                            <div>
-                                                <form action="{{ route('dashboard.print.filtered') }}" method="GET" target="_blank" style="display: inline; margin: 0;">
-                                                    @foreach(request('filter', []) as $key => $value)
-                                                        @if($value)
-                                                            <input type="hidden" name="filter[{{ $key }}]" value="{{ $value }}">
-                                                        @endif
-                                                    @endforeach
-                                                    <button type="submit" class="btn"
-                                                            style="background: white;
-                                                                   color: #007bff;
-                                                                   font-weight: 600;
-                                                                   padding: 10px 20px;
-                                                                   border-radius: 8px;
-                                                                   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-                                                                   border: none;
-                                                                   transition: all 0.3s ease;
-                                                                   cursor: pointer;
-                                                                   font-size: 14px;">
-                                                        <i class="fas fa-print"></i> Print
-                                                    </button>
-                                                </form>
+
+                                            {{-- Company Logo (Right) --}}
+                                            <div style="background: white; padding: 10px; border-radius: 7px; display: flex; align-items: center; justify-content: center; max-width: 120px; max-height: 80px;">
+                                                <img src="{{ URL::asset('assets/img/brand/logodashboard.png') }}"
+                                                     alt="Company Logo"
+                                                     onerror="console.error('Failed to load company logo'); this.style.display='none';"
+                                                     style="max-height: 60px; max-width: 100px; width: auto; height: auto; object-fit: contain;">
                                             </div>
                                         </div>
                                         <div class="card-body" style="padding: 30px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
@@ -886,24 +906,11 @@
                                             <div class="row mb-4">
                                                 <div class="col-lg col-md-4 col-sm-6 mb-3">
                                                     <div class="info-box" style="background: white; padding: 20px; border-radius: 8px; border-top: 3px solid #667eea; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 100%; transition: all 0.3s;">
-                                                        <small style="color: #6c757d; font-weight: 600; font-size: 10px; text-transform: uppercase; display: block; margin-bottom: 10px;">CUSTOMER</small>
-                                                        <div class="d-flex align-items-center">
-                                                            @if($project->cust && $project->cust->logo)
-                                                                <a href="/{{ $project->cust->logo }}" data-lightbox="customer-logo-{{ $project->id }}" data-title="{{ $project->cust->name }} Logo" title="Click to view full size" style="text-decoration: none;">
-                                                                    <div style="width: 50px; height: 50px; background: white; border-radius: 8px; border: 2px solid #667eea; padding: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 12px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='#4a56d6'; this.style.transform='scale(1.05)'" onmouseout="this.style.borderColor='#667eea'; this.style.transform='scale(1)'">
-                                                                        <img src="/{{ $project->cust->logo }}"
-                                                                             alt="{{ $project->cust->name }} Logo"
-                                                                             onerror="this.parentElement.parentElement.style.display='none';"
-                                                                             style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                                                                    </div>
-                                                                </a>
-                                                            @endif
-                                                            <div style="flex: 1; min-width: 0;">
-                                                                <h5 class="mb-0" style="color: #2c3e50; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $project->cust->name ?? 'N/A' }}">
-                                                                    {{ $project->cust->name ?? 'N/A' }}
-                                                                </h5>
-                                                            </div>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <i class="fas fa-user" style="color: #667eea; font-size: 20px;"></i>
+                                                            <small class="ml-2" style="color: #6c757d; font-weight: 600; font-size: 10px; text-transform: uppercase;">CUSTOMER</small>
                                                         </div>
+                                                        <h5 class="mb-0" style="color: #2c3e50; font-weight: 600; font-size: 15px;">{{ $project->cust->name ?? 'N/A' }}</h5>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg col-md-4 col-sm-6 mb-3">
@@ -957,94 +964,47 @@
                                                 $projectTasks = $project->calculatedTasks ?? collect();
                                             @endphp
 
-                                            <div id="progress-section-{{ $project->pr_number }}" class="mb-4" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 25px; border-radius: 15px; box-shadow: 0 3px 20px rgba(0,0,0,0.1); border: 1px solid #e9ecef;">
-                                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                                    <div>
-                                                        <h5 class="mb-1" style="color: #2c3e50; font-weight: 700;">
-                                                            <i class="fas fa-chart-line" style="color: #28a745;"></i> Project Progress
-                                                        </h5>
-                                                        <small class="text-muted">Task completion status</small>
-                                                    </div>
-                                                    <div class="text-right d-flex align-items-center" style="gap: 10px;">
-                                                        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-                                                                    color: white;
-                                                                    font-size: 24px;
-                                                                    font-weight: 700;
-                                                                    padding: 12px 24px;
-                                                                    border-radius: 12px;
-                                                                    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-                                                                    min-width: 100px;
-                                                                    text-align: center;">
-                                                            {{ $progress }}%
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {{-- Progress Bar - Always Show --}}
-                                                <div style="background: #e9ecef;
-                                                            height: 30px;
-                                                            border-radius: 15px;
-                                                            overflow: hidden;
-                                                            position: relative;
-                                                            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-                                                    <div style="background: linear-gradient(90deg, #28a745 0%, #34ce57 100%);
-                                                                height: 100%;
-                                                                width: {{ $progress }}%;
-                                                                border-radius: 15px;
-                                                                transition: width 0.6s ease;
-                                                                position: relative;
-                                                                box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);">
-                                                    </div>
-                                                </div>
-
-                                                {{-- Expected Completion Date --}}
-                                                <div class="mt-3 mb-3" style="background: white; padding: 15px 20px; border-radius: 10px; border-left: 4px solid #17a2b8; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="fas fa-calendar-check" style="color: #17a2b8; font-size: 20px; margin-right: 12px;"></i>
-                                                        <div>
-                                                            <small style="color: #6c757d; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Expected Completion Date</small>
-                                                            <h6 class="mb-0 mt-1" style="color: #2c3e50; font-weight: 600; font-size: 16px;">{{ $project->latestStatus && $project->latestStatus->expected_completion ? \Carbon\Carbon::parse($project->latestStatus->expected_completion)->format('d/m/Y') : 'Not Set' }}</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {{-- Completed and Total Boxes - Always Show --}}
-                                                <div class="row mt-4">
-                                                    <div class="col-6">
-                                                        <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
-                                                                    padding: 20px;
-                                                                    border-radius: 12px;
-                                                                    border-left: 4px solid #ffc107;
-                                                                    box-shadow: 0 2px 10px rgba(255, 193, 7, 0.15);">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <div>
-                                                                    <div style="color: #856404; font-size: 13px; font-weight: 600; margin-bottom: 5px;">
-                                                                        <i class="fas fa-clock"></i> PENDING
-                                                                    </div>
-                                                                    <div style="color: #ffc107; font-size: 32px; font-weight: 700;">
-                                                                        {{ $pendingTasks }}
-                                                                    </div>
-                                                                </div>
-                                                                <i class="fas fa-hourglass-half" style="font-size: 40px; color: #ffc107; opacity: 0.2;"></i>
+                                            {{-- Expected Completion Date & Actual Completion --}}
+                                            <div class="row mb-3">
+                                                <div class="col-md-6 mb-3">
+                                                    <div style="background: white; padding: 15px 20px; border-radius: 10px; border-left: 4px solid #17a2b8; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: 100%;">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-calendar-check" style="color: #17a2b8; font-size: 20px; margin-right: 12px;"></i>
+                                                            <div>
+                                                                <small style="color: #6c757d; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Expected Completion Date</small>
+                                                                <h6 class="mb-0 mt-1" style="color: #2c3e50; font-weight: 600; font-size: 16px;">{{ $project->taskWithLatestExpectedDate && $project->taskWithLatestExpectedDate->expected_com_date ? \Carbon\Carbon::parse($project->taskWithLatestExpectedDate->expected_com_date)->format('d/m/Y') : 'Not Set' }}</h6>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-6">
-                                                        <div style="background: linear-gradient(135deg, #e2e3e5 0%, #d6d8db 100%);
-                                                                    padding: 20px;
-                                                                    border-radius: 12px;
-                                                                    border-left: 4px solid #6c757d;
-                                                                    box-shadow: 0 2px 10px rgba(108, 117, 125, 0.15);">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <div>
-                                                                    <div style="color: #495057; font-size: 13px; font-weight: 600; margin-bottom: 5px;">
-                                                                        <i class="fas fa-list"></i> TOTAL TASKS
-                                                                    </div>
-                                                                    <div style="color: #495057; font-size: 32px; font-weight: 700;">
-                                                                        {{ $totalTasks }}
-                                                                    </div>
-                                                                </div>
-                                                                <i class="fas fa-tasks" style="font-size: 40px; color: #6c757d; opacity: 0.2;"></i>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div style="background: white; padding: 15px 20px; border-radius: 10px; border-left: 4px solid #28a745; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: 100%;">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-percentage" style="color: #28a745; font-size: 20px; margin-right: 12px;"></i>
+                                                            <div>
+                                                                <small style="color: #6c757d; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Actual Completion</small>
+                                                                @php
+                                                                    $actualCompletion = $project->latestStatus && $project->latestStatus->actual_completion !== null
+                                                                        ? $project->latestStatus->actual_completion
+                                                                        : null;
+
+                                                                    // تحديد اللون بناءً على النسبة (ألوان حرارية)
+                                                                    $color = '#6c757d'; // رمادي للقيمة غير المحددة
+                                                                    if ($actualCompletion !== null) {
+                                                                        if ($actualCompletion >= 75) {
+                                                                            $color = '#28a745'; // أخضر
+                                                                        } elseif ($actualCompletion >= 50) {
+                                                                            $color = '#ffc107'; // أصفر
+                                                                        } elseif ($actualCompletion >= 25) {
+                                                                            $color = '#fd7e14'; // برتقالي
+                                                                        } else {
+                                                                            $color = '#dc3545'; // أحمر
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                                <h6 class="mb-0 mt-1" style="color: {{ $color }}; font-weight: 700; font-size: 18px;">
+                                                                    {{ $actualCompletion !== null ? number_format($actualCompletion, 2) . '%' : 'Not Set' }}
+                                                                </h6>
                                                             </div>
                                                         </div>
                                                     </div>

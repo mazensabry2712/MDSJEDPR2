@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Log;
 class PtasksController extends Controller
 {
     /**
+     * Apply permission middleware
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show ptasks', ['only' => ['index']]);
+        $this->middleware('permission:add ptasks', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit ptasks', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete ptasks', ['only' => ['destroy']]);
+        $this->middleware('permission:view ptasks', ['only' => ['show']]);
+    }
+
+    /**
      * Export PTasks to Excel
      */
     public function exportExcel()

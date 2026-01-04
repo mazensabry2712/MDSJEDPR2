@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Storage;
 class DnController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show dn', ['only' => ['index']]);
+        $this->middleware('permission:add dn', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit dn', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete dn', ['only' => ['destroy']]);
+        $this->middleware('permission:view dn', ['only' => ['show']]);
+    }
+
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

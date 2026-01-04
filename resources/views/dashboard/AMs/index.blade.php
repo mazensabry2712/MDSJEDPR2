@@ -272,7 +272,7 @@
                                 </button> --}}
 
 
-                                @can('Add')
+                                @can('add am')
                                     <a class="btn btn-primary" data-effect="effect-scale" data-toggle="modal"
                                         href="#modaldemo8">
                                         <i class="fas fa-plus"></i> Add Account Manager
@@ -308,7 +308,7 @@
                                                 <i class="las la-eye"></i>
                                             </a>
 
-                                            @can('Edit')
+                                            @can('edit am')
                                             <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                 data-id="{{ $x->id }}" data-name="{{ $x->name }}"
                                                 data-email="{{ $x->email }}" data-phone="{{ $x->phone }}"
@@ -317,7 +317,7 @@
                                             </a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete am')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $x->id }}" data-name="{{ $x->name }}"
                                                 data-toggle="modal" href="#modaldemo9" title="Delete">

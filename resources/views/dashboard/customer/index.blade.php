@@ -198,7 +198,7 @@
                                 <i class="fas fa-print"></i> Print
                             </a>
 
-                            @can('Add')
+                            @can('add customer')
                             <a class="btn btn-primary" href="{{ route('customer.create') }}">
                                 <i class="fas fa-plus"></i> Add Customer
                             </a>
@@ -235,17 +235,17 @@
 
                                     <td>{{ $i }}</td>
                                     <td>
-                                        {{-- @can('View') --}}
+                                        @can('view customer')
                                         <a href="{{ route('customer.show', $cust->id) }}" class="btn btn-sm btn-primary" title="View Details">
                                             <i class="las la-eye"></i>
                                         </a>
-                                        {{-- @endcan --}}
-                                        @can('Edit')
+                                        @endcan
+                                        @can('edit customer')
                                         <a href="{{ route('customer.edit', $cust->id) }}" class="btn btn-sm btn-info" title="Edit">
                                             <i class="las la-pen"></i>
                                         </a>
                                         @endcan
-                                        @can('Delete')
+                                        @can('delete customer')
                                         <a class="btn btn-sm btn-danger" data-effect="effect-scale"
                                             data-id="{{ $cust->id }}" data-name="{{ $cust->name }}"
                                             data-toggle="modal" href="#modaldemo9" title="Delete">

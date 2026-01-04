@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Cache;
 class PepoController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show epo', ['only' => ['index']]);
+        $this->middleware('permission:add epo', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit epo', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete epo', ['only' => ['destroy']]);
+        $this->middleware('permission:view epo', ['only' => ['show']]);
+    }
+
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

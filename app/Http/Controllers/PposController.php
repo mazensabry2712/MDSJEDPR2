@@ -16,6 +16,19 @@ use Illuminate\Support\Facades\Log;
 class PposController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show pos', ['only' => ['index']]);
+        $this->middleware('permission:add pos', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit pos', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete pos', ['only' => ['destroy']]);
+        $this->middleware('permission:view pos', ['only' => ['show']]);
+    }
+
+
+    /**
      * Export PPOs to Excel
      */
     public function exportExcel()

@@ -284,7 +284,7 @@
                     <i class="mdi mdi-printer"></i>
                 </button>
             </div>
-            @can('Edit')
+            @can('edit invoice')
                 <div class="pr-1 mb-3 mb-xl-0">
                     <a href="{{ route('invoices.edit', $invoice->id) }}" class="btn btn-primary btn-icon ml-2 no-print">
                         <i class="mdi mdi-pencil"></i>
@@ -578,7 +578,7 @@
                                     <i class="fas fa-bolt mr-2"></i>Quick Actions
                                 </h3>
 
-                                @can('Edit')
+                                @can('edit invoice')
                                     <a href="{{ route('invoices.edit', $invoice->id) }}" class="btn btn-info btn-block mb-2">
                                         <i class="fas fa-edit"></i> Edit Invoice
                                     </a>
@@ -594,7 +594,7 @@
                                     </a>
                                 @endif
 
-                                @can('Delete')
+                                @can('delete invoice')
                                     <button type="button" class="btn btn-danger btn-block" onclick="confirmDelete()">
                                         <i class="fas fa-trash"></i> Delete Invoice
                                     </button>

@@ -116,7 +116,7 @@
                                 <i class="fas fa-print"></i> Print
                             </a>
 
-                            @can('Add')
+                            @can('add risks')
                             <a class="btn btn-primary" href="{{ route('risks.create') }}">
                                 <i class="fas fa-plus"></i> Add New Risk
                             </a>
@@ -156,18 +156,18 @@
                                             <a class="btn btn-sm btn-primary" href="{{ route('risks.show', $risk->id) }}" title="Show">
                                                 <i class="las la-eye"></i>
                                             </a>
-                                            {{-- @can('edit') --}}
+                                            @can('edit risks')
                                             <a class="btn btn-sm btn-info" href="{{ route('risks.edit', $risk->id) }}" title="Edit">
                                                 <i class="las la-pen"></i>
                                             </a>
-                                            {{-- @endcan --}}
-                                            {{-- @can('delete') --}}
+                                            @endcan
+                                            @can('delete risks')
                                             <a class="btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $risk->id }}" data-name="{{ $risk->risk }}"
                                                 data-toggle="modal" href="#modaldemo9" title="Delete">
                                                 <i class="las la-trash"></i>
                                             </a>
-                                            {{-- @endcan --}}
+                                            @endcan
                                         </td>
                                         <td>{{ $risk->project->pr_number ?? 'N/A' }}</td>
                                         <td>{{ $risk->project->name ?? 'N/A' }}</td>

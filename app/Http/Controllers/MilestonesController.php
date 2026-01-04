@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Cache;
 class MilestonesController extends Controller
 {
     /**
+     * Apply permission middleware
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show milestones', ['only' => ['index']]);
+        $this->middleware('permission:add milestones', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit milestones', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete milestones', ['only' => ['destroy']]);
+        $this->middleware('permission:view milestones', ['only' => ['show']]);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

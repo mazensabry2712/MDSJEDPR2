@@ -9,6 +9,19 @@ use Illuminate\Support\Facades\Log;
 class CustController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show customer', ['only' => ['index']]);
+        $this->middleware('permission:add customer', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit customer', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete customer', ['only' => ['destroy']]);
+        $this->middleware('permission:view customer', ['only' => ['show']]);
+    }
+
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

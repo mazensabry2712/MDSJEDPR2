@@ -292,14 +292,14 @@
                                                 <i class="las la-eye"></i>
                                             </a>
 
-                                            @can('Edit')
+                                            @can('edit project-details')
                                                 <a href="{{ route('projects.edit', $project->id) }}"
                                                     class="btn btn-sm btn-info" title="Edit">
                                                     <i class="las la-pen"></i>
                                                 </a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete project-details')
                                                 <a class="btn btn-sm btn-danger" data-effect="effect-scale"
                                                     data-id="{{ $project->id }}" data-name="{{ $project->name }}"
                                                     data-toggle="modal" href="#modaldemo9" title="Delete">

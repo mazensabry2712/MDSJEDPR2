@@ -279,7 +279,7 @@
                                     <i class="fas fa-print"></i> Print
                                 </a>
 
-                                @can('Add')
+                                @can('add invoice')
                                     <a class="btn btn-primary" data-effect="effect-scale"
                                         href="{{ route('invoices.create') }}">
                                         <i class="fas fa-plus"></i> Add Invoice
@@ -313,21 +313,21 @@
                                     <tr>
                                         <td>{{ $i }}</td>
                                         <td>
-                                            {{-- @can('Show') --}}
+                                            @can('show invoice')
                                                 <a class="btn btn-sm btn-primary"
                                                     href="{{ route('invoices.show', $invoice->id) }}" title="View">
                                                     <i class="las la-eye"></i>
                                                 </a>
-                                            {{-- @endcan --}}
+                                            @endcan
 
-                                            @can('Edit')
+                                            @can('edit invoice')
                                                 <a class="btn btn-sm btn-info"
                                                     href="{{ route('invoices.edit', $invoice->id) }}" title="Update">
                                                     <i class="las la-pen"></i>
                                                 </a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete invoice')
                                                 <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                     data-id="{{ $invoice->id }}"
                                                     data-invoice_number="{{ $invoice->invoice_number }}" data-toggle="modal"

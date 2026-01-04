@@ -9,6 +9,19 @@ use Illuminate\Support\Facades\Cache;
 class DsController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show supplier', ['only' => ['index']]);
+        $this->middleware('permission:add supplier', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit supplier', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete supplier', ['only' => ['destroy']]);
+        $this->middleware('permission:view supplier', ['only' => ['show']]);
+    }
+
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

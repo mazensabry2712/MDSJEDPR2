@@ -65,22 +65,52 @@
         .card-header {
             background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             color: white;
-            padding: 6px 10px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-box {
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100px;
+            max-height: 70px;
+        }
+
+        .logo-box img {
+            max-height: 55px;
+            max-width: 85px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .card-header-center {
+            flex: 1;
+            text-align: center;
         }
 
         .card-header h3 {
-            font-size: 11px;
+            font-size: 14px;
             margin: 0;
+            line-height: 1.4;
         }
 
         .card-header .pr-badge {
             background: white;
             color: #007bff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 9px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: bold;
-            margin-left: 6px;
+            margin-left: 8px;
+            display: inline-block;
+            margin-top: 6px;
         }
 
         .card-body {
@@ -420,10 +450,27 @@
     <div class="project-card">
         <!-- Card Header -->
         <div class="card-header">
-            <h3>
-                <i class="fas fa-project-diagram"></i> {{ $project->name }}
+            {{-- Customer Logo (Left) --}}
+            @if($project->cust && $project->cust->logo)
+                <div class="logo-box">
+                    <img src="{{ asset($project->cust->logo) }}" alt="{{ $project->cust->name }} Logo" onerror="this.parentElement.style.display='none';">
+                </div>
+            @else
+                <div style="width: 100px;"></div>
+            @endif
+
+            {{-- Project Name & PR Number (Center) --}}
+            <div class="card-header-center">
+                <h3>
+                    <i class="fas fa-project-diagram"></i> {{ $project->name }}
+                </h3>
                 <span class="pr-badge">PR# {{ $project->pr_number }}</span>
-            </h3>
+            </div>
+
+            {{-- Company Logo (Right) --}}
+            <div class="logo-box">
+                <img src="{{ asset('assets/img/brand/logodashboard.png') }}" alt="Company Logo" onerror="this.style.display='none';">
+            </div>
         </div>
 
         <!-- Card Body -->
@@ -464,28 +511,43 @@
                 </div>
             </div>
 
-            <!-- Progress Section -->
-            <div class="progress-section">
-                <div class="progress-header">
-                    <div class="progress-title">
-                        <i class="fas fa-chart-line"></i> Project Progress
-                    </div>
-                    <div class="progress-percentage">
-                        {{ $progress }}%
-                    </div>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: {{ $progress }}%;"></div>
-                </div>
-
+            <!-- Expected Completion Date & Actual Completion -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 8px;">
                 <!-- Expected Completion Date -->
                 <div class="expected-date">
                     <div class="date-label">
                         <i class="fas fa-calendar-check"></i> Expected Completion Date
                     </div>
-                    <div class="date-value">{{ $project->latestStatus && $project->latestStatus->expected_completion ? \Carbon\Carbon::parse($project->latestStatus->expected_completion)->format('d/m/Y') : 'Not Set' }}</div>
+                    <div class="date-value">{{ $project->taskWithLatestExpectedDate && $project->taskWithLatestExpectedDate->expected_com_date ? \Carbon\Carbon::parse($project->taskWithLatestExpectedDate->expected_com_date)->format('d/m/Y') : 'Not Set' }}</div>
+                </div>
+
+                <!-- Actual Completion -->
+                <div class="expected-date" style="border-left-color: #28a745;">
+                    <div class="date-label">
+                        <i class="fas fa-percentage" style="color: #28a745;"></i> Actual Completion
+                    </div>
+                    @php
+                        $actualCompletion = $project->latestStatus && $project->latestStatus->actual_completion !== null
+                            ? $project->latestStatus->actual_completion
+                            : null;
+
+                        // تحديد اللون بناءً على النسبة (ألوان حرارية)
+                        $color = '#6c757d'; // رمادي للقيمة غير المحددة
+                        if ($actualCompletion !== null) {
+                            if ($actualCompletion >= 75) {
+                                $color = '#28a745'; // أخضر
+                            } elseif ($actualCompletion >= 50) {
+                                $color = '#ffc107'; // أصفر
+                            } elseif ($actualCompletion >= 25) {
+                                $color = '#fd7e14'; // برتقالي
+                            } else {
+                                $color = '#dc3545'; // أحمر
+                            }
+                        }
+                    @endphp
+                    <div class="date-value" style="color: {{ $color }}; font-weight: 700; font-size: 11px;">
+                        {{ $actualCompletion !== null ? number_format($actualCompletion, 2) . '%' : 'Not Set' }}
+                    </div>
                 </div>
             </div>
 

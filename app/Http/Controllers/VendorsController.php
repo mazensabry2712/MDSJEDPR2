@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Log;
 class VendorsController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show vendors', ['only' => ['index']]);
+        $this->middleware('permission:add vendors', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit vendors', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete vendors', ['only' => ['destroy']]);
+        $this->middleware('permission:view vendors', ['only' => ['show']]);
+    }
+
+    /**
      * Export Vendors to Excel
      */
     public function exportExcel()

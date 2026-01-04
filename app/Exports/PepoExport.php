@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\pepo;
+use App\Models\Pepo;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -24,7 +24,7 @@ class PepoExport implements FromCollection, WithHeadings, WithMapping, WithStyle
     public function collection()
     {
         self::$rowIndex = 0;
-        return pepo::with('project')->orderBy('created_at', 'desc')->get();
+        return Pepo::with('project')->orderBy('created_at', 'desc')->get();
     }
 
     /**

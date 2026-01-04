@@ -67,14 +67,23 @@ class Project extends Model
     public function latestStatus()
     {
         return $this->hasOne(Pstatus::class, 'pr_number', 'id')
-            ->orderBy('expected_completion', 'desc')
-            ->orderBy('id', 'desc');
+            ->latest('created_at')  // آخر إدخال حسب تاريخ الإنشاء
+            ->latest('id');         // وإذا كان نفس التاريخ، آخر ID
     }
 
     // علاقات إضافية (Tasks, Milestones, Invoices, Risks)
     public function tasks()
     {
         return $this->hasMany(Ptasks::class, 'pr_number', 'id');
+    }
+
+    // للحصول على Task بأبعد expected_com_date
+    public function taskWithLatestExpectedDate()
+    {
+        return $this->hasOne(Ptasks::class, 'pr_number', 'id')
+            ->whereNotNull('expected_com_date')
+            ->orderBy('expected_com_date', 'desc')
+            ->orderBy('id', 'desc');
     }
 
     public function milestones()
@@ -119,7 +128,7 @@ class Project extends Model
                      ->withTimestamps();
     }
 
-    // أخصائيي تسليم (Delivery Specialists) متعددون للمشروع
+    // أخصائيي تسليم (Delivery s) متعددون للمشروع
     public function deliverySpecialists()
     {
         return $this->belongsToMany(Ds::class, 'project_delivery_specialists', 'project_id', 'ds_id')

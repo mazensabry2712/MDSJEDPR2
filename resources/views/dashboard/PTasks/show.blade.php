@@ -225,19 +225,19 @@
                         <h6 class="mb-0"><i class="fas fa-bolt"></i> Quick Actions</h6>
                     </div>
                     <div class="card-body">
-                        {{-- @can('Edit') --}}
+                        @can('edit ptasks')
                         <a href="{{ route('ptasks.edit', $ptask->id) }}" class="btn btn-primary action-btn">
                             <i class="las la-pen"></i> Edit Task
                         </a>
-                        {{-- @endcan --}}
+                        @endcan
                         <a href="{{ route('ptasks.index') }}" class="btn btn-outline-primary action-btn">
                             <i class="las la-arrow-left"></i> Back to List
                         </a>
-                        {{-- @can('Delete') --}}
+                        @can('delete ptasks')
                         <button type="button" class="btn btn-danger action-btn" data-toggle="modal" data-target="#deleteModal">
                             <i class="las la-trash"></i> Delete Task
                         </button>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
 

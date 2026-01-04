@@ -26,6 +26,14 @@ use Spatie\QueryBuilder\AllowedFilter;
 class DashboardController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show dashboard');
+    }
+
+    /**
      * Display a listing of the resource with advanced filtering.
      */
     public function index(Request $request)
@@ -120,6 +128,7 @@ class DashboardController extends Controller
                 'aams:id,name,email,phone',
                 'cust:id,name,logo',
                 'latestStatus',
+                'taskWithLatestExpectedDate',
                 'tasks' => function($q) {
                     $q->select('id', 'pr_number', 'details', 'assigned', 'status');
                 },

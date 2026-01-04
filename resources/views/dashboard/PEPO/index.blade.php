@@ -173,7 +173,7 @@
                                     <i class="fas fa-print"></i> Print
                                 </a>
 
-                                @can('Add')
+                                @can('add epo')
                                     <a class="btn btn-primary" data-effect="effect-scale" href="{{ route('epo.create') }}">
                                         <i class="fas fa-plus"></i> Add Epo
                                     </a>
@@ -204,23 +204,23 @@
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
                                         <td style="white-space: nowrap;">
-                                            {{-- @can('Show') --}}
+                                            @can('show epo')
                                                 <a class="btn btn-sm btn-primary" href="{{ route('epo.show', $x->id) }}"
                                                     title="View"><i class="las la-eye"></i></a>
-                                            {{-- @endcan --}}
+                                            @endcan
 
-                                            {{-- @can('Edit') --}}
+                                            @can('edit epo')
                                                 <a class="btn btn-sm btn-info" href="{{ route('epo.edit', $x->id) }}"
 
                                                     title="Update"><i class="las la-pen"></i></a>
-                                            {{-- @endcan --}}
+                                            @endcan
 
-                                            {{-- @can('Delete') --}}
+                                            @can('delete epo')
                                                 <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                     data-id="{{ $x->id }}" data-name="{{ $x->category }}"
                                                     data-toggle="modal" href="#modaldemo9" title="Delete"><i
                                                         class="las la-trash"></i></a>
-                                            {{-- @endcan --}}
+                                            @endcan
                                         </td>
                                         <td>{{ $x->project->pr_number ?? 'N/A' }}</td>
                                         <td>{{ $x->project->name ?? 'N/A' }}</td>

@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Cache;
 class InvoicesController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show invoice', ['only' => ['index']]);
+        $this->middleware('permission:add invoice', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit invoice', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete invoice', ['only' => ['destroy']]);
+        $this->middleware('permission:view invoice', ['only' => ['show']]);
+    }
+
+    /**
      * Display a listing of the resource with caching for speed
      */
     public function index()

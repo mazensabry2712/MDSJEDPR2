@@ -296,7 +296,7 @@
                                     <i class="fas fa-print"></i> Print
                                 </a>
 
-                                @can('Add')
+                                @can('add dn')
                                     <a class="btn btn-primary" data-effect="effect-scale" href="{{ route('dn.create') }}">
                                         <i class="fas fa-plus"></i> Add Delivery Note
                                     </a>
@@ -328,17 +328,17 @@
                                     <tr>
                                         <td>{{ $i }}</td>
                                         <td>
-                                            {{-- @can('Show') --}}
+                                            @can('show dn')
                                             <a class="btn btn-sm btn-primary"
                                                 href="{{route('dn.show',$dnnn->id)}}" title="View"><i class="las la-eye"></i></a>
-                                            {{-- @endcan --}}
+                                            @endcan
 
-                                             @can('Edit')
+                                             @can('edit dn')
                                             <a class=" btn btn-sm btn-info"
                                                 href="{{route('dn.edit',$dnnn->id)}}" title="Upadte"><i class="las la-pen"></i></a>
                                              @endcan
 
-                                             @can('Delete')
+                                             @can('delete dn')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $dnnn->id }}" data-dn_number="{{ $dnnn->dn_number }}"
                                                 data-toggle="modal" href="#modaldemo9" title="Delete"><i

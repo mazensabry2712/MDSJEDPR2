@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Log;
 class RisksController extends Controller
 {
     /**
+     * Apply permission middleware
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show risks', ['only' => ['index']]);
+        $this->middleware('permission:add risks', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit risks', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete risks', ['only' => ['destroy']]);
+        $this->middleware('permission:view risks', ['only' => ['show']]);
+    }
+
+    /**
      * Export Risks to Excel
      */
     public function exportExcel()

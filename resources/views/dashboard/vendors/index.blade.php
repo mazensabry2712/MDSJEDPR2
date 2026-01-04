@@ -269,7 +269,7 @@
                                     <i class="fas fa-file-csv"></i> CSV
                                 </button> --}}
 
-                                @can('Add')
+                                @can('add vendors')
                                     <a class="modal-effect btn btn-primary" data-effect="effect-scale" data-toggle="modal"
                                         href="#modaldemo8">
                                         <i class="fas fa-plus"></i> Add Vendor
@@ -305,14 +305,14 @@
                                                 <i class="las la-eye"></i>
                                             </a>
 
-                                            @can('Edit')
+                                            @can('edit vendors')
                                                 <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                     data-id="{{ $vendor->id }}" data-vendors="{{ $vendor->vendors }}"
                                                     data-vendor_am_details="{{ $vendor->vendor_am_details }}" data-toggle="modal"
                                                     href="#exampleModal2" title="Update"><i class="las la-pen"></i></a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete vendors')
                                                 <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                     data-id="{{ $vendor->id }}" data-vendors="{{ $vendor->vendors }}"
                                                     data-toggle="modal" href="#modaldemo9" title="Delete"><i

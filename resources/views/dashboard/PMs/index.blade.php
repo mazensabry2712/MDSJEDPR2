@@ -164,7 +164,7 @@
             <i class="fas fa-file-csv"></i> CSV
         </button> --}}
 
-        @can('Add')
+        @can('add pm')
         <a class="btn btn-primary modal-effect" data-effect="effect-scale" data-toggle="modal"
             href="#modaldemo8">
             <i class="fas fa-plus"></i> Add PM
@@ -200,7 +200,7 @@
                                                 <i class="las la-eye"></i>
                                             </a>
 
-                                            @can('Edit')
+                                            @can('edit pm')
                                             <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                 data-id="{{ $x->id }}" data-name="{{ $x->name }}"
                                                 data-email="{{ $x->email }}" data-phone="{{ $x->phone }}"
@@ -209,7 +209,7 @@
                                             </a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete pm')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $x->id }}" data-name="{{ $x->name }}"
                                                 data-toggle="modal" href="#modaldemo9" title="Delete">

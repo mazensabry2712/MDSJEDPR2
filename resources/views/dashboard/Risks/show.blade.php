@@ -221,19 +221,19 @@
             <!-- Quick Actions -->
             <div class="action-card no-print">
                 <h5><i class="fas fa-bolt"></i> Quick Actions</h5>
-                {{-- @can('edit') --}}
+                @can('edit risks')
                 <a href="{{ route('risks.edit', $risks->id) }}" class="btn btn-primary btn-action">
                     <i class="fas fa-edit"></i> Edit Risk
                 </a>
-                {{-- @endcan --}}
+                @endcan
                 <a href="{{ route('risks.index') }}" class="btn btn-outline-primary btn-action">
                     <i class="fas fa-arrow-left"></i> Back to List
                 </a>
-                {{-- @can('delete') --}}
+                @can('delete risks')
                 <button type="button" class="btn btn-danger btn-action" data-toggle="modal" data-target="#deleteModal">
                     <i class="fas fa-trash"></i> Delete Risk
                 </button>
-                {{-- @endcan --}}
+                @endcan
             </div>
 
             <!-- Export Options -->

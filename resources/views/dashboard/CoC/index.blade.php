@@ -340,7 +340,7 @@
                                     <i class="fas fa-print"></i> Print
                                 </a>
 
-                                @can('Add')
+                                @can('add coc')
                                     <a class="btn btn-primary" data-effect="effect-scale" href="{{ route('coc.create') }}">
                                         <i class="fas fa-plus"></i> Add CoC
                                     </a>
@@ -370,21 +370,21 @@
                                     <tr>
                                         <td>{{ $i }}</td>
                                         <td>
-                                            {{-- @can('Show') --}}
+                                            @can('show coc')
                                                 <a class="btn btn-sm btn-primary"
                                                     href="{{ route('coc.show', $item->id) }}" title="View">
                                                     <i class="las la-eye"></i>
                                                 </a>
-                                            {{-- @endcan --}}
+                                            @endcan
 
-                                            @can('Edit')
+                                            @can('edit coc')
                                                 <a class="btn btn-sm btn-info"
                                                     href="{{ route('coc.edit', $item->id) }}" title="Update">
                                                     <i class="las la-pen"></i>
                                                 </a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete coc')
                                                 <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                     data-id="{{ $item->id }}"
                                                     data-project_name="{{ $item->project->name ?? 'N/A' }}"

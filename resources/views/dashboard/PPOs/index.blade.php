@@ -205,7 +205,7 @@
                                     <i class="fas fa-print"></i> Print
                                 </a>
 
-                                @can('Add')
+                                @can('add pos')
                                     <a class="btn btn-primary" href="{{ route('ppos.create') }}">
                                         <i class="fas fa-plus"></i> Add PPO
                                     </a>
@@ -241,12 +241,12 @@
                                             <a class="btn btn-sm btn-primary" href="{{ route('ppos.show', $x->id) }}"
                                                 title="Show"><i class="las la-eye"></i></a>
 
-                                            @can('Edit')
+                                            @can('edit pos')
                                                 <a class="btn btn-sm btn-info" href="{{ route('ppos.edit', $x->id) }}"
                                                     title="Update"><i class="las la-pen"></i></a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete pos')
                                                 <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                     data-id="{{ $x->id }}" data-name="{{ $x->po_number }}"
                                                     data-toggle="modal" href="#modaldemo9" title="Delete"><i

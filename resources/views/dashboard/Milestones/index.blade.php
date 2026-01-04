@@ -233,12 +233,12 @@
                                         <td style="white-space: nowrap;">{{ $i }}</td>
                                         <td style="white-space: nowrap;">
                                             <a href="{{ route('milestones.show', $x->id) }}" class="btn btn-sm btn-primary" title="View"><i class="las la-eye"></i></a>
-                                            {{-- @can('Edit') --}}
+                                            @can('edit milestones')
                                             <a class="btn btn-sm btn-info" href="{{ route('milestones.edit', $x->id) }}" title="Edit"><i class="las la-pen"></i></a>
-                                            {{-- @endcan --}}
-                                            {{-- @can('Delete') --}}
+                                            @endcan
+                                            @can('delete milestones')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale" data-id="{{ $x->id }}" data-name="{{ $x->milestone }}" data-toggle="modal" href="#modaldemo9" title="Delete"><i class="las la-trash"></i></a>
-                                            {{-- @endcan --}}
+                                            @endcan
                                         </td>
                                         <td style="white-space: nowrap;">{{ $x->project->pr_number ?? 'N/A' }}</td>
                                         <td style="white-space: nowrap;">{{ $x->project->name ?? 'N/A' }}</td>

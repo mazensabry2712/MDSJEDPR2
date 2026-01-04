@@ -263,7 +263,7 @@
                                     <i class="fas fa-print"></i> Print
                                 </a>
 
-                                @can('Add')
+                                @can('add supplier')
                                     <a class="modal-effect btn btn-primary" data-effect="effect-scale" data-toggle="modal"
                                         href="#modaldemo8">
                                         <i class="fas fa-plus"></i> Add Distributor/Supplier
@@ -296,7 +296,7 @@
                                                 <i class="las la-eye"></i>
                                             </a>
 
-                                            @can('Edit')
+                                            @can('edit supplier')
                                             <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                 data-id="{{ $x->id }}" data-dsname="{{ $x->dsname }}"
                                                 data-ds_contact="{{ $x->ds_contact }}"
@@ -304,7 +304,7 @@
                                                     class="las la-pen"></i></a>
                                             @endcan
 
-                                            @can('Delete')
+                                            @can('delete supplier')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $x->id }}" data-dsname="{{ $x->dsname }}"
                                                 data-toggle="modal" href="#modaldemo9" title="Delete"><i

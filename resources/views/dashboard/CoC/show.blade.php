@@ -266,7 +266,7 @@
                         </h6>
                     </div>
                     <div class="card-body">
-                        @can('Edit')
+                        @can('edit coc')
                             <a href="{{ route('coc.edit', $coc->id) }}" class="btn btn-info action-btn">
                                 <i class="fas fa-edit mr-2"></i>Edit Certificate
                             </a>
@@ -282,7 +282,7 @@
                             </a>
                         @endif
 
-                        @can('Delete')
+                        @can('delete coc')
                             <button class="btn btn-danger action-btn" data-toggle="modal" data-target="#deleteModal">
                                 <i class="fas fa-trash mr-2"></i>Delete Certificate
                             </button>

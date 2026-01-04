@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\Log;
 class ProjectsController extends Controller
 {
     /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show project-details', ['only' => ['index']]);
+        $this->middleware('permission:add project-details', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit project-details', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete project-details', ['only' => ['destroy']]);
+        $this->middleware('permission:view project-details', ['only' => ['show']]);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

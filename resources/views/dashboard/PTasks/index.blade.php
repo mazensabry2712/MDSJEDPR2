@@ -106,7 +106,7 @@
                                 <i class="fas fa-print"></i> Print
                             </a>
 
-                            @can('Add')
+                            @can('add ptasks')
                             <a class="btn btn-primary" href="{{ route('ptasks.create') }}">
                                 <i class="fas fa-plus"></i> Add New Task
                             </a>
@@ -138,18 +138,18 @@
                                             <a class="btn btn-sm btn-primary" href="{{ route('ptasks.show', $ptask->id) }}" title="Show">
                                                 <i class="las la-eye"></i>
                                             </a>
-                                            {{-- @can('Edit') --}}
+                                            @can('edit ptasks')
                                             <a class="btn btn-sm btn-info" href="{{ route('ptasks.edit', $ptask->id) }}" title="Edit">
                                                 <i class="las la-pen"></i>
                                             </a>
-                                            {{-- @endcan --}}
-                                            {{-- @can('Delete') --}}
+                                            @endcan
+                                            @can('delete ptasks')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $ptask->id }}" data-task_details="{{ $ptask->details }}"
                                                 data-toggle="modal" href="#modaldemo9" title="Delete">
                                                 <i class="las la-trash"></i>
                                             </a>
-                                            {{-- @endcan --}}
+                                            @endcan
                                         </td>
                                         <td>{{ $ptask->project->pr_number ?? 'N/A' }}</td>
                                         <td>{{ $ptask->project->name ?? 'N/A' }}</td>

@@ -38,6 +38,13 @@ class ReportController extends Controller
     public function __construct(ReportService $reportService)
     {
         $this->reportService = $reportService;
+
+        // Apply permission middleware
+        $this->middleware('permission:show reports', ['only' => ['index']]);
+        $this->middleware('permission:add reports', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit reports', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete reports', ['only' => ['destroy']]);
+        $this->middleware('permission:view reports', ['only' => ['show']]);
     }
 
     /**
@@ -215,7 +222,10 @@ class ReportController extends Controller
             }
 
             // Get projects for this vendor with customer info
-            $projects = Project::where('vendors_id', $vendor->id)
+            // Use whereHas to check many-to-many relationship (project_vendors table)
+            $projects = Project::whereHas('vendors', function($query) use ($vendor) {
+                    $query->where('vendor_id', $vendor->id);
+                })
                 ->with('cust:id,name')
                 ->select('id', 'pr_number', 'name', 'value', 'customer_po', 'customer_po_deadline', 'cust_id')
                 ->orderBy('created_at', 'desc')

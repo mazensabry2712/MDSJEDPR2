@@ -6,8 +6,21 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+
 class UserController extends Controller
 {
+    /**
+     * Constructor to set up middleware for permissions
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:show users', ['only' => ['index']]);
+        $this->middleware('permission:add users', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit users', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete users', ['only' => ['destroy']]);
+        $this->middleware('permission:view users', ['only' => ['show']]);
+    }
+
 /**
 * Display a listing of the resource.
 *
@@ -41,22 +54,32 @@ return view('users.Add_user',compact('roles'));
 */
 public function store(Request $request)
 {
-$this->validate($request, [
-'name' => 'required',
-'email' => 'required|email|unique:users,email',
-'password' => 'required|same:confirm-password',
-'roles_name' => 'required'
-]);
+    try {
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|same:confirm-password',
+            'roles_name' => 'required'
+        ]);
 
-$input = $request->all();
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
 
+        $user = User::create($input);
+        $user->assignRole($request->input('roles_name'));
 
-$input['password'] = Hash::make($input['password']);
+        return redirect()->route('users.index')
+            ->with('success', 'User has been added successfully');
 
-$user = User::create($input);
-$user->assignRole($request->input('roles_name'));
-return redirect()->route('users.index')
-->with('success','The user has been added successfully.');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()->back()
+            ->withErrors($e->validator)
+            ->withInput($request->except(['password', 'confirm-password']));
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'An error occurred: ' . $e->getMessage())
+            ->withInput($request->except(['password', 'confirm-password']));
+    }
 }
 
 /**
@@ -92,24 +115,46 @@ return view('users.edit',compact('user','roles','userRole'));
 */
 public function update(Request $request, $id)
 {
-$this->validate($request, [
-'name' => 'required',
-'email' => 'required|email|unique:users,email,'.$id,
-'password' => 'same:confirm-password',
-'roles' => 'required'
-]);
-$input = $request->all();
-if(!empty($input['password'])){
-$input['password'] = Hash::make($input['password']);
-}else{
-$input =array_except($input,array('password'));
-}
-$user = User::find($id);
-$user->update($input);
-DB::table('model_has_roles')->where('model_id',$id)->delete();
-$user->assignRole($request->input('roles'));
-return redirect()->route('users.index')
-->with('success','User information has been successfully updated');
+    try {
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'nullable|min:6|same:confirm-password',
+            'roles' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        if(!empty($input['password'])){
+            $input['password'] = Hash::make($input['password']);
+        } else {
+            unset($input['password']);
+        }
+
+        $user = User::find($id);
+
+        if(!$user) {
+            return redirect()->route('users.index')
+                ->with('error', 'User not found');
+        }
+
+        $user->update($input);
+
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+        $user->assignRole($request->input('roles'));
+
+        return redirect()->route('users.index')
+            ->with('edit', 'User information has been successfully updated');
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()->back()
+            ->withErrors($e->validator)
+            ->withInput($request->except(['password', 'confirm-password']));
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'An error occurred: ' . $e->getMessage())
+            ->withInput($request->except(['password', 'confirm-password']));
+    }
 }
 /**
 * Remove the specified resource from storage.
@@ -119,7 +164,15 @@ return redirect()->route('users.index')
 */
 public function destroy(Request $request)
 {
-User::find($request->user_id)->delete();
-return redirect()->route('users.index')->with('danger','User deleted successfully');
+    $user = User::find($request->user_id);
+
+    if($user) {
+        $user->delete();
+        return redirect()->route('users.index')
+            ->with('delete', 'User has been deleted successfully');
+    }
+
+    return redirect()->route('users.index')
+        ->with('error', 'User not found');
 }
 }
